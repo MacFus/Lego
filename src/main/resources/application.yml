@@ -1,0 +1,19 @@
+
+spring:
+  datasource:
+    url: jdbc:mysql://lego-db-sf.mysql.database.azure.com:3306/lego?useSSL=true
+    username: legoroot
+    password: Piotrek123
+  jpa:
+    show-sql: true
+    hibernate:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQLDialect
+
+#server:
+#  port: 9090
+logging:
+  level:
+    com:
+      zaxxer:
+        hikari: DEBUG
