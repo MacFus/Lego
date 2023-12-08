@@ -1,9 +1,7 @@
 package pl.fus.lego.Services;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.fus.lego.DTOs.SetDTO;
 import pl.fus.lego.Entity.Sets;
@@ -26,7 +24,12 @@ public class SetService {
 
     public ApiResponse<SetDTO> findSetsWithPaginationAndCriteria(Criteria criteria, PageRequest pr){
         System.out.println(criteria);
-        Page<Sets> sets = setRepo.findSetsByCriteria(criteria, pr);
+        Page<Sets> sets;
+        if(criteria.getTheme() != null){
+            sets = setRepo.findSetsByCriteria(criteria, pr);
+        }else{
+            sets = setRepo.findSetsNoTheme(criteria, pr);
+        }
         List<SetDTO> setDTOList = sets.getContent().stream()
                 .map(setMapper::map)
                 .toList();

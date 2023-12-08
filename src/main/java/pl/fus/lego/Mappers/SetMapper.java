@@ -12,7 +12,7 @@ public class SetMapper {
         dto.setName(set.getName());
         dto.setYear(Integer.parseInt(set.getYear()));
         dto.setThemeId(Integer.parseInt(set.getThemeId()));
-        dto.setNumParts(Integer.parseInt(set.getNumParts()));
+        dto.setNumParts(set.getNumParts());
         dto.setImgUrl(set.getImgUrl());
         return dto;
     }
