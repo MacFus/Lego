@@ -10,7 +10,7 @@ import lombok.Data;
 public class InventoryMinifigs {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "inventory_id", nullable = false, length = 20)
+    @Column(name = "inventory_id", nullable = false, length = 20, insertable=false, updatable=false)
     private String inventoryId;
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -20,7 +20,7 @@ public class InventoryMinifigs {
     @Column(name = "quantity", nullable = false, length = 20)
     private String quantity;
     @ManyToOne
-    @JoinColumn(name = "inventory_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "inventory_id", referencedColumnName = "id", nullable = false, insertable=false, updatable=false)
     private Inventories inventoriesByInventoryId;
 
 }

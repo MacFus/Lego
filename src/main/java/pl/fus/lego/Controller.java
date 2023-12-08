@@ -1,5 +1,6 @@
 package pl.fus.lego;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -12,17 +13,19 @@ import pl.fus.lego.Services.MinifigService;
 import pl.fus.lego.Services.SetService;
 import pl.fus.lego.UTILS.ApiResponse;
 import pl.fus.lego.UTILS.Criteria;
+import pl.fus.lego.auth.AuthenticationService;
 
 @RestController
-@RequestMapping("/app")
+@RequiredArgsConstructor
+@RequestMapping("/api/v1")
 public class Controller {
 
     private final SetService setService;
     private final MinifigService minifigService;
 
-    public Controller(SetService setService, MinifigService minifigService) {
-        this.setService = setService;
-        this.minifigService = minifigService;
+    @RequestMapping(value = "/hello", method = RequestMethod.GET)
+    public ResponseEntity<String> sayHello(){
+        return ResponseEntity.ok("Hello from secured endpoint");
     }
 
     @RequestMapping(value = "/sets/{offset}/{pageSize}", method = RequestMethod.GET)

@@ -6,9 +6,13 @@ spring:
     password: Piotrek123
   jpa:
     show-sql: true
-    hibernate:
     database: mysql
     database-platform: org.hibernate.dialect.MySQLDialect
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: update
 
 #server:
 #  port: 9090
