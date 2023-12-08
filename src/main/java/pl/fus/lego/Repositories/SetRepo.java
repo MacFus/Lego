@@ -21,7 +21,7 @@ public interface SetRepo extends JpaRepository<Sets, String>, PagingAndSortingRe
 
 //    Query, w których określone jest Criteria.theme
     @Query("SELECT s FROM Sets s " +
-            "JOIN Themes t ON s.themeId = t.id OR s.themeId = t.parentId " +
+            "JOIN Themes t ON s.themeId = t.id " +
             "WHERE ((t.name = :#{#criteria.theme} OR COALESCE(:#{#criteria.theme}, '') = '') AND " +
             "(s.year BETWEEN :#{#criteria.startYear} AND :#{#criteria.endYear}) AND " +
             "(s.numParts BETWEEN :#{#criteria.minParts} AND :#{#criteria.maxParts}))")

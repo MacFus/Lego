@@ -10,8 +10,8 @@ public class SetMapper {
         SetDTO dto = new SetDTO();
         dto.setSetNum(set.getSetNum());
         dto.setName(set.getName());
-        dto.setYear(Integer.parseInt(set.getYear()));
-        dto.setThemeId(Integer.parseInt(set.getThemeId()));
+        dto.setYear(set.getYear());
+        dto.setThemeId(set.getThemeId());
         dto.setNumParts(set.getNumParts());
         dto.setImgUrl(set.getImgUrl());
         return dto;

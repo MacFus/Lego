@@ -15,14 +15,18 @@ public class Sets {
     private String name;
     @Basic
     @Column(name = "year", nullable = false, length = 20)
-    private String year;
+    private Integer year;
     @Basic
-    @Column(name = "theme_id", nullable = false, length = 20)
-    private String themeId;
+    @Column(name = "theme_id", nullable = false)
+    private Integer themeId;
     @Basic
     @Column(name = "num_parts", nullable = true)
     private Integer numParts;
     @Basic
     @Column(name = "img_url", nullable = true, length = 255)
     private String imgUrl;
+
+    public String getSetNum() {
+        return setNum;
+    }
 }
