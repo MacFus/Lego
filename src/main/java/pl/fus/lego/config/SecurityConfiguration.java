@@ -1,5 +1,4 @@
 package pl.fus.lego.config;
-
 import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import pl.fus.lego.Entity.Role;
 
 @Configuration
 @EnableWebSecurity
@@ -21,9 +21,11 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
+        http
+                .csrf()
+                .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/**", "api/v1/demo-controller")
+                .requestMatchers("/api/v1/auth/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
