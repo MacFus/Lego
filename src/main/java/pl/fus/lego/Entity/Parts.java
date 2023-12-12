@@ -6,7 +6,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 
 import java.util.Collection;
-
 @Entity
 public class Parts {
     @GeneratedValue(strategy = GenerationType.IDENTITY)

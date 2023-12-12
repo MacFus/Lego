@@ -6,12 +6,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.fus.lego.DTOs.InventoryPartsDTO;
 import pl.fus.lego.DTOs.MinifigDTO;
 import pl.fus.lego.DTOs.SetDTO;
 import pl.fus.lego.Entity.InventoryParts;
 import pl.fus.lego.Services.MinifigService;
 import pl.fus.lego.Services.SetService;
 import pl.fus.lego.UTILS.ApiResponse;
+import pl.fus.lego.UTILS.ApiResponseMap;
 import pl.fus.lego.UTILS.Criteria;
 
 @RestController
@@ -54,8 +56,16 @@ public class Controller {
     }
 
     @RequestMapping(value = "/mypartset", method = RequestMethod.GET)
-    public ResponseEntity<ApiResponse<Object>> getMyPartsToSets(@RequestBody Criteria criteria) {
-        ApiResponse<Object> myPartsToSet = setService.findMyPartsToSet(criteria);
+    public ResponseEntity<ApiResponseMap<String, InventoryPartsDTO>> getMyPartsToSets(@RequestBody Criteria criteria) {
+        ApiResponseMap<String, InventoryPartsDTO> myPartsToSet = setService.findMyPartsToSet(criteria);
         return ResponseEntity.status(HttpStatus.OK).body(myPartsToSet);
     }
+
+    @RequestMapping(value = "/findSetsToDo/{offset}/{pageSize}", method = RequestMethod.GET)
+    public ResponseEntity<ApiResponseMap<String, InventoryPartsDTO>> getAllSetsMapped(@RequestBody Criteria criteria, @PathVariable int offset, @PathVariable int pageSize) {
+        PageRequest pr = PageRequest.of(offset, pageSize);
+        ApiResponseMap<String, InventoryPartsDTO> myPartsToSet = setService.findPartsToSetList(criteria, pr);
+        return ResponseEntity.status(HttpStatus.OK).body(myPartsToSet);
+    }
+
 }

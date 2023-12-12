@@ -6,10 +6,11 @@ import pl.fus.lego.Entity.InventoryParts;
 
 @Service
 public class InventoryPartsMapper {
-    public InventoryPartsDTO map(Object obj){
+    public InventoryPartsDTO map(Object obj) {
         InventoryParts ip = (InventoryParts) obj;
         InventoryPartsDTO dto = new InventoryPartsDTO();
-        dto.setQuantity(ip.getQuantity());
+        Integer quantity = (ip.getQuantity() != null) ? Integer.valueOf(ip.getQuantity()) : 0;
+        dto.setQuantity(quantity);
         dto.setPartNum(ip.getPartNum());
         dto.setImgUrl(ip.getImgUrl());
         dto.setColorId(ip.getColorId());

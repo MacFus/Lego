@@ -31,7 +31,7 @@ public class InventoryParts {
     @Basic
     @Column(name = "img_url", nullable = true, length = 255)
     private String imgUrl;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "inventory_id", referencedColumnName = "id", nullable = false, insertable=false, updatable=false)
     @JsonIgnore
     private Inventories inventoriesByInventoryId;

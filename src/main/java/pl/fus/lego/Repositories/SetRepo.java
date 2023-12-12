@@ -41,7 +41,7 @@ public interface SetRepo extends JpaRepository<Sets, String>, PagingAndSortingRe
             "JOIN Sets s ON s.setNum = i.setNum " +
             "JOIN Parts pts ON pts.partNum = ip.partNum " +
             "JOIN UserSets us ON us.setNum = i.setNum " +
-            "WHERE us.userId = :#{#criteria.userId}")
+            "WHERE us.userId =:#{#criteria.userId} ")
     List<InventoryParts> findMyParts(@Param("criteria") Criteria criteria);
 
     @Query("SELECT DISTINCT s FROM InventoryParts ip " +
@@ -60,6 +60,17 @@ public interface SetRepo extends JpaRepository<Sets, String>, PagingAndSortingRe
             "WHERE us.userId = :#{#criteria.userId}")
     List<List<Object>> findMyPartsToSet(@Param("criteria") Criteria criteria);
 
+    @Query("SELECT s.setNum, ip FROM InventoryParts ip " +
+            "JOIN Inventories i ON ip.inventoryId = i.id " +
+            "JOIN Sets s ON s.setNum = i.setNum " +
+            "JOIN Parts pts ON pts.partNum = ip.partNum")
+    List<List<Object>> getAllSetsWithParts(Pageable pageable);
 
+    @Query("SELECT s.setNum, ip FROM InventoryParts ip " +
+            "JOIN Inventories i ON ip.inventoryId = i.id " +
+            "JOIN Sets s ON s.setNum = i.setNum " +
+            "JOIN Parts pts ON pts.partNum = ip.partNum " +
+            "WHERE s.setNum IN :#{#list}")
+    List<List<Object>> findPartsToSetList(@Param("list") List<String> list);
 
 }

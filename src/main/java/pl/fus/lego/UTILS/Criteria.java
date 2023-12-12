@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 @NoArgsConstructor
 @ToString
 public class Criteria {
-    private int startYear = 1945;
-    private int endYear = 2030;
-    private int minParts = 0;
-    private int maxParts = 9999;
+    private Integer startYear = 1945;
+    private Integer endYear = 2030;
+    private Integer minParts = 0;
+    private Integer maxParts = 9999;
     private String theme;
     private String sortField = "name";
     private Integer userId;
