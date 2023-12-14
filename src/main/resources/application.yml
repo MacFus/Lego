@@ -1,3 +1,7 @@
+api:
+  urlParts: "https://rebrickable.com/api/v3/lego/sets/{set_num}/parts/"
+  key: " key 1df027c3f54bee740a038faa6b2eb3e8"
+
 spring:
   datasource:
     url: jdbc:mysql://lego-db-sf.mysql.database.azure.com:3306/lego?sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&useSSL=true

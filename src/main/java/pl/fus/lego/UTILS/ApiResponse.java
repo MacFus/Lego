@@ -1,5 +1,6 @@
 package pl.fus.lego.UTILS;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,20 +12,20 @@ import java.util.Map;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-public class ApiResponse <T>{
-
-    int recordCount;
+public class ApiResponse<T> {
+    @JsonProperty("count")
+    int count;
+    @JsonProperty("results")
     List<T> response;
-    Map<SetDTO, List<InventoryPartsDTO>> responseMap;
-
+    int partsCount;
     public ApiResponse(int recordCount, List<T> response) {
-        this.recordCount = recordCount;
+        this.count = recordCount;
         this.response = response;
     }
 
-    public ApiResponse(int size, Map<SetDTO, List<InventoryPartsDTO>> map) {
-        recordCount = size;
-        responseMap = map;
+    public ApiResponse(int count, List<T> response, int partsCount) {
+        this.count = count;
+        this.response = response;
+        this.partsCount = partsCount;
     }
 }

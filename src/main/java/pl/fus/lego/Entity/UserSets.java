@@ -14,6 +14,9 @@ public class UserSets {
     @Column(name = "set_num", nullable = false, length = 60)
     private String setNum;
 
+    @Column(name = "quantity", nullable = false)
+    private int quantity;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

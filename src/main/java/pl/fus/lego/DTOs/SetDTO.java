@@ -10,6 +10,7 @@ public class SetDTO {
     private String name;
     private int year;
     private int themeId;
+    private String themeName;
     private int numParts;
     private String imgUrl;
 
@@ -18,6 +19,16 @@ public class SetDTO {
         this.name = name;
         this.year = year;
         this.themeId = themeId;
+        this.numParts = numParts;
+        this.imgUrl = imgUrl;
+    }
+
+    public SetDTO(String setNum, String name, int year, int themeId, String themeName, int numParts, String imgUrl) {
+        this.setNum = setNum;
+        this.name = name;
+        this.year = year;
+        this.themeId = themeId;
+        this.themeName = themeName;
         this.numParts = numParts;
         this.imgUrl = imgUrl;
     }

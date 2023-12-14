@@ -10,7 +10,7 @@ public class InventoryPartsMapper {
         InventoryParts ip = (InventoryParts) obj;
         InventoryPartsDTO dto = new InventoryPartsDTO();
         Integer quantity = (ip.getQuantity() != null) ? Integer.valueOf(ip.getQuantity()) : 0;
-        dto.setQuantity(quantity);
+        dto.setQuantityStr(ip.getQuantity());
         dto.setPartNum(ip.getPartNum());
         dto.setImgUrl(ip.getImgUrl());
         dto.setColorId(ip.getColorId());

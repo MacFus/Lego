@@ -15,8 +15,9 @@ public class Criteria {
     private Integer minParts = 0;
     private Integer maxParts = 9999;
     private String theme;
-    private String sortField = "name";
+    private String sortField;
     private Integer userId;
+    private String direction;
 
 
 }
