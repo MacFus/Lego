@@ -34,7 +34,7 @@ public class MinifigService {
         }
         List<MinifigDTO> minifigDTOList = minifigs.getContent().stream().map(minifigMapper::map).toList();
         System.out.println(minifigs);
-        return new ApiResponse<>(minifigDTOList.size(), minifigDTOList);
+        return new ApiResponse<>(minifigDTOList, minifigDTOList.size());
     }
 
 

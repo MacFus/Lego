@@ -12,6 +12,7 @@ import pl.fus.lego.DTOs.PartDTO;
 import pl.fus.lego.DTOs.SetDTO;
 import pl.fus.lego.Repositories.EntityRepository;
 import pl.fus.lego.UTILS.ApiResponse;
+import pl.fus.lego.UTILS.Result;
 
 import java.util.List;
 
@@ -46,19 +47,18 @@ public class ApiService {
             List<SetDTO> set = entityRepository.findSet(setNum);
             if ( set.get(0).getNumParts() == 0) {
                 List<InventorySetsDTO> embeddedSets = entityRepository.findEmbeddedSets(setNum);
-                return embeddedSets;
+                return new ApiResponse<>(embeddedSets.size(), embeddedSets, 0);
             } else {
                 parts = entityRepository.findPartsToSetList(List.of(setNum));
                 if(parts.size()!=0){
                     int sum = parts.stream()
                             .mapToInt(PartDTO::getQuantity) // Konwertuje PartDTO na int (ilość)
                             .sum();
-                    return parts;
+                    return new ApiResponse<>(parts.size(), parts, sum);
                 }else{
                     ResponseEntity<String> response = restTemplate.exchange(modifiedUrl, HttpMethod.GET, new HttpEntity<>(headers), String.class);
-//                    return response.getBody();
-                    ApiResponse<PartDTO> apiResponse = objectMapper.readValue(response.getBody(), new TypeReference<ApiResponse<PartDTO>>(){});
-                    return response.getBody();
+                    ApiResponse apiResponse = objectMapper.readValue(response.getBody(), ApiResponse.class);
+                     return apiResponse;
                 }
             }
         } catch (Exception e) {
@@ -72,6 +72,7 @@ public class ApiService {
     private static String replacePathVariable(String url, String setNumber) {
         return url.replace("{set_num}", setNumber);
     }
+
 //    private static String replaceParam(String url, String replacement, String param) {
 //        String patternString = null;
 //        switch (param) {

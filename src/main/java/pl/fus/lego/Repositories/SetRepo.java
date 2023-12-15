@@ -15,12 +15,20 @@ import java.util.List;
 public interface SetRepo extends JpaRepository<Sets, String>, PagingAndSortingRepository<Sets, String> {
 
     //      Query, w których określone jest Criteria.theme
-    @Query("SELECT s FROM Sets s " +
-            "JOIN Themes t ON s.themeId = t.id " +
-            "JOIN Themes pt ON s.themeId = pt.parentId " +
-            "WHERE (t.name = :#{#cr.theme} OR pt.name = :#{#cr.theme}) AND " +
-            "(s.year BETWEEN :#{#cr.startYear} AND :#{#cr.endYear}) AND " +
-            "(s.numParts BETWEEN :#{#cr.minParts} AND :#{#cr.maxParts})")
+    @Query("SELECT s FROM Sets s  " +
+            "JOIN s.theme t  " +
+            "LEFT JOIN s.parentTheme pt  " +
+            "WHERE (:#{#cr.theme} IS NULL OR t.name LIKE CONCAT('%', :#{#cr.theme}, '%') OR pt.name LIKE CONCAT('%', :#{#cr.theme}, '%'))  " +
+            "AND (s.year BETWEEN COALESCE(:#{#cr.startYear}, 1945) AND COALESCE(:#{#cr.endYear}, 2030))  " +
+            "AND (s.numParts BETWEEN COALESCE(:#{#cr.minParts}, 0) AND COALESCE(:#{#cr.maxParts}, 9999))  " +
+            "AND (:#{#cr.search} IS NULL OR t.name LIKE  :#{#cr.search}   " +
+            "     OR s.setNum LIKE  :#{#cr.search}   " +
+            "     OR s.name LIKE  :#{#cr.search})")
+//    @Query("SELECT s FROM Sets s  " +
+//            "JOIN s.theme t  " +
+//            "JOIN s.parentTheme pt  " +
+//            "WHERE (:#{#cr.search} IS NULL OR t.name LIKE  :#{#cr.search} OR pt.name LIKE  :#{#cr.search}\n" +
+//            "OR s.name LIKE  :#{#cr.search} OR s.setNum LIKE  :#{#cr.search})  ")
     Page<Sets> findSetsByCriteria(@Param("cr") Criteria cr, Pageable pr);
 
     //      Query, w których theme = null;

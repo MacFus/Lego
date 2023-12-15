@@ -22,29 +22,50 @@ public class EntityRepository {
 
     // add sorting ASC DESC BY FIELD
     public List<SetDTO> findSetsByCriteria(Criteria cr, Pageable pr) {
-        String query = " SELECT distinct NEW pl.fus.lego.DTOs.SetDTO(s.setNum, s.name, s.year, s.themeId, s.numParts, s.imgUrl) FROM Sets s ";
-        query += " JOIN Themes t ON t.id = s.themeId JOIN Themes pt ON pt.parentId = s.themeId WHERE ";
-        query += " (s.year >= :startYear AND s.year <= :endYear) AND (s.numParts >= :minParts AND s.numParts <= :maxParts) AND s.numParts != 0";
-        TypedQuery<SetDTO> q;
-        q = entityManager.createQuery(query, SetDTO.class)
-                .setParameter("startYear", cr.getStartYear())
-                .setParameter("endYear", cr.getEndYear())
-                .setParameter("minParts", cr.getMinParts())
-                .setParameter("maxParts", cr.getMaxParts());
-        if (cr.getTheme() != null) {
-            query += " AND (t.name = :theme OR pt.name = :theme) ";
-            q = entityManager.createQuery(query, SetDTO.class)
-                    .setParameter("startYear", cr.getStartYear())
-                    .setParameter("endYear", cr.getEndYear())
-                    .setParameter("minParts", cr.getMinParts())
-                    .setParameter("maxParts", cr.getMaxParts())
-                    .setParameter("theme", cr.getTheme());
-        }
-        List<SetDTO> resultList = q.setFirstResult(pr.getPageNumber() * pr.getPageSize())
-                .setMaxResults(pr.getPageSize())
-                .getResultList();
-        resultList.sort(Comparator.comparing(SetDTO::getName));
-        return resultList;
+//        String query = " SELECT distinct NEW pl.fus.lego.DTOs.SetDTO(s.setNum, s.name, s.year, s.themeId, s.numParts, s.imgUrl) FROM Sets s ";
+//        query += " JOIN Themes t ON t.id = s.themeId JOIN Themes pt ON pt.parentId = s.themeId WHERE ";
+//        query += " (s.year >= :startYear AND s.year <= :endYear) AND (s.numParts >= :minParts AND s.numParts <= :maxParts) AND s.numParts != 0";
+//        TypedQuery<SetDTO> q;
+//        q = entityManager.createQuery(query, SetDTO.class)
+//                .setParameter("startYear", cr.getStartYear())
+//                .setParameter("endYear", cr.getEndYear())
+//                .setParameter("minParts", cr.getMinParts())
+//                .setParameter("maxParts", cr.getMaxParts());
+//        if (cr.getTheme() != null) {
+//            query += " AND (t.name = :theme OR pt.name = :theme) ";
+//            q = entityManager.createQuery(query, SetDTO.class)
+//                    .setParameter("startYear", cr.getStartYear())
+//                    .setParameter("endYear", cr.getEndYear())
+//                    .setParameter("minParts", cr.getMinParts())
+//                    .setParameter("maxParts", cr.getMaxParts())
+//                    .setParameter("theme", cr.getTheme());
+//        }
+//        List<SetDTO> resultList = q.setFirstResult(pr.getPageNumber() * pr.getPageSize())
+//                .setMaxResults(pr.getPageSize())
+//                .getResultList();
+//        resultList.sort(Comparator.comparing(SetDTO::getName));
+//        return resultList;
+        String jpql = "SELECT new pl.fus.lego.DTOs.SetDTO(s.setNum, s.name, s.year, s.themeId, t.name, pt.name, s.numParts, s.imgUrl) " +
+                "FROM Sets s " +
+                "JOIN s.theme t " +
+                "JOIN t.parentTheme pt " +
+                "WHERE (:theme IS NULL OR t.name LIKE CONCAT('%', :theme, '%') OR pt.name LIKE CONCAT('%', :theme, '%')) " +
+                "AND (s.year BETWEEN COALESCE(:startYear, 1945) AND COALESCE(:endYear, 2030)) " +
+                "AND (s.numParts BETWEEN COALESCE(:minParts, 0) AND COALESCE(:maxParts, 9999)) " +
+                "AND (:search IS NULL OR t.name LIKE CONCAT('%', :search, '%') OR s.setNum LIKE CONCAT('%', :search, '%') OR s.name LIKE CONCAT('%', :search, '%'))";
+
+        TypedQuery<SetDTO> query = entityManager.createQuery(jpql, SetDTO.class);
+
+// Ustawianie parametrów
+        query.setParameter("theme", cr.getTheme()); // Zakładam, że obiekt cr ma te metody
+        query.setParameter("startYear", cr.getStartYear());
+        query.setParameter("endYear", cr.getEndYear());
+        query.setParameter("minParts", cr.getMinParts());
+        query.setParameter("maxParts", cr.getMaxParts());
+        query.setParameter("search", cr.getSearch());
+
+        List<SetDTO> results = query.getResultList();
+        return results;
     }
 
     public List<SetDTO> findAllSets(Criteria cr, Pageable pr) {

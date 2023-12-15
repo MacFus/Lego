@@ -19,12 +19,24 @@ public class Sets {
     @Basic
     @Column(name = "theme_id", nullable = false)
     private Integer themeId;
+
+    @Basic
+    @Column(name = "p_theme_id", nullable = true)
+    private Integer pThemeId;
     @Basic
     @Column(name = "num_parts", nullable = true)
     private Integer numParts;
     @Basic
     @Column(name = "img_url", nullable = true, length = 255)
     private String imgUrl;
+
+    @ManyToOne
+    @JoinColumn(name = "theme_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Themes theme;
+
+    @ManyToOne
+    @JoinColumn(name = "p_theme_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Themes parentTheme;
 
     public String getSetNum() {
         return setNum;

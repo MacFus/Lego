@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import pl.fus.lego.DTOs.InventoryPartsDTO;
 import pl.fus.lego.DTOs.SetDTO;
 
@@ -16,10 +17,17 @@ public class ApiResponse<T> {
     @JsonProperty("count")
     int count;
     @JsonProperty("results")
-    List<T> response;
+    List<Result> results = null;
+    List<T> response = null;
     int partsCount;
-    public ApiResponse(int recordCount, List<T> response) {
-        this.count = recordCount;
+
+    public ApiResponse(int count, List<Result> results) {
+        this.count = count;
+        this.results = results;
+    }
+
+    public ApiResponse(List<T> response, int count) {
+        this.count = count;
         this.response = response;
     }
 

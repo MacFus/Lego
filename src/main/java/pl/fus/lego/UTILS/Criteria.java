@@ -16,8 +16,27 @@ public class Criteria {
     private Integer maxParts = 9999;
     private String theme;
     private String sortField;
-    private Integer userId;
     private String direction;
+    private Integer userId;
+    private String search;
 
-
+    public Criteria(Integer startYear, Integer endYear, Integer minParts, Integer maxParts, String theme, String sortField, String direction) {
+        this.startYear = startYear;
+        this.endYear = endYear;
+        this.minParts = minParts;
+        this.maxParts = maxParts;
+        this.theme = theme;
+        this.sortField = sortField;
+        this.direction = direction;
+    }
+    public Criteria(Integer startYear, Integer endYear, Integer minParts, Integer maxParts, String theme, String sortField, String direction, String search) {
+        this.startYear = startYear;
+        this.endYear = endYear;
+        this.minParts = minParts;
+        this.maxParts = maxParts;
+        this.theme = theme;
+        this.sortField = sortField;
+        this.direction = direction;
+        this.search = '%'+search+'%';
+    }
 }
