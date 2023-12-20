@@ -24,62 +24,72 @@ public class ApiService {
     private String apiKey;
 
     private final RestTemplate restTemplate;
-    private final SetService setService;
     private final EntityRepository entityRepository;
     private final ObjectMapper objectMapper;
 
-    public ApiService(RestTemplate restTemplate, SetService setService, EntityRepository entityRepository, ObjectMapper objectMapper) {
+    public ApiService(RestTemplate restTemplate, EntityRepository entityRepository, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
-        this.setService = setService;
         this.entityRepository = entityRepository;
         this.objectMapper = objectMapper;
     }
 
-    public Object getParts(String setNum) {
-        try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("Authorization", apiKey);
-            String modifiedUrl;
-            List<PartDTO> parts = null;
+    public ApiResponse getParts(String setNum) {
 
-            modifiedUrl = replacePathVariable(urlParts, setNum);
+        List<PartDTO> parts = null;
 
-            List<SetDTO> set = entityRepository.findSet(setNum);
-            if ( set.get(0).getNumParts() == 0) {
-                List<InventorySetsDTO> embeddedSets = entityRepository.findEmbeddedSets(setNum);
-                return new ApiResponse<>(embeddedSets.size(), embeddedSets, 0);
-            } else {
-                parts = entityRepository.findPartsToSetList(List.of(setNum));
-                if(parts.size()!=0){
-                    int sum = parts.stream()
-                            .mapToInt(PartDTO::getQuantity) // Konwertuje PartDTO na int (ilość)
-                            .sum();
-                    return new ApiResponse<>(parts.size(), parts, sum);
-                }else{
-                    ResponseEntity<String> response = restTemplate.exchange(modifiedUrl, HttpMethod.GET, new HttpEntity<>(headers), String.class);
-                    ApiResponse apiResponse = objectMapper.readValue(response.getBody(), ApiResponse.class);
-                     return apiResponse;
-                }
+        List<SetDTO> set = entityRepository.findSet(setNum);
+        if (set.get(0).getNumParts() == 0) {
+            List<InventorySetsDTO> embeddedSets = entityRepository.findEmbeddedSets(setNum);
+            return new ApiResponse<>(embeddedSets, embeddedSets.size(), 0, true);
+        } else {
+            parts = entityRepository.findPartsToSetList(List.of(setNum));
+            if (parts.size() != 0) {
+                int sum = parts.stream()
+                        .mapToInt(PartDTO::getQuantity) // Konwertuje PartDTO na int (ilość)
+                        .sum();
+                return new ApiResponse<>(parts, parts.size(), sum);
             }
-        } catch (Exception e) {
-            throw new ResponseStatusException(
-                    HttpStatus.INTERNAL_SERVER_ERROR,
-                    "Exception while calling endpoint of external api",
-                    e);
+            return null;
         }
-    }
 
-    private static String replacePathVariable(String url, String setNumber) {
-        return url.replace("{set_num}", setNumber);
-    }
-
-//    private static String replaceParam(String url, String replacement, String param) {
-//        String patternString = null;
-//        switch (param) {
-//            case "setNum":
-//                patternString = "\\{set_num}";
-//                break;
+//    public ApiResponse getParts(String setNum) {
+//        try {
+//
+//            String modifiedUrl;
+//            List<PartDTO> parts = null;
+//
+//            List<SetDTO> set = entityRepository.findSet(setNum);
+//            if (set.get(0).getNumParts() == 0) {
+//                List<InventorySetsDTO> embeddedSets = entityRepository.findEmbeddedSets(setNum);
+//                return new ApiResponse<>(embeddedSets, embeddedSets.size(), 0, true);
+//            } else {
+//                parts = entityRepository.findPartsToSetList(List.of(setNum));
+//                if (parts.size() != 0) {
+//                    int sum = parts.stream()
+//                            .mapToInt(PartDTO::getQuantity) // Konwertuje PartDTO na int (ilość)
+//                            .sum();
+//                    return new ApiResponse<>(parts, parts.size(), sum);
+//                } else {
+//                    HttpHeaders headers = new HttpHeaders();
+//                    headers.add("Authorization", apiKey);
+//                    modifiedUrl = replacePathVariable(urlParts, setNum);
+//                    ResponseEntity<String> response = restTemplate.exchange(modifiedUrl, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+//                    ApiResponse apiResponse = objectMapper.readValue(response.getBody(), ApiResponse.class);
+//                    return apiResponse;
+//                }
+//            }
+//        } catch (Exception e) {
+//            throw new ResponseStatusException(
+//                    HttpStatus.INTERNAL_SERVER_ERROR,
+//                    "Exception while calling endpoint of external api",
+//                    e);
 //        }
-//        return url.replace(patternString, param);
 //    }
+
+
+//    private static String replacePathVariable(String url, String setNumber) {
+//        return url.replace("{set_num}", setNumber);
+//    }
+//}
+    }
 }

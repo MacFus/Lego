@@ -14,10 +14,14 @@ public class SetDTO {
     private String parentThemeName;
     private int numParts;
     private String imgUrl;
+    private Integer quantity;
+    private Double match;
 
     public SetDTO(String setNum) {
         this.setNum = setNum;
     }
+
+
     SetDTO(String setNum, String name, int year, int themeId, String themeName, String parentThemeName, int numParts, String imgUrl){
         this.setNum = setNum;
         this.name = name;
@@ -28,6 +32,27 @@ public class SetDTO {
         this.numParts = numParts;
         this.imgUrl = imgUrl;
     }
+
+    public SetDTO(String setNum, String name, int year, String themeName, String parentThemeName, int numParts, String imgUrl) {
+        this.setNum = setNum;
+        this.name = name;
+        this.year = year;
+        this.themeName = themeName;
+        this.parentThemeName = parentThemeName;
+        this.numParts = numParts;
+        this.imgUrl = imgUrl;
+    }
+    public SetDTO(String setNum, String name, int year, String themeName, String parentThemeName, int numParts, String imgUrl, Integer quantity) {
+        this.setNum = setNum;
+        this.name = name;
+        this.year = year;
+        this.themeName = themeName;
+        this.parentThemeName = parentThemeName;
+        this.numParts = numParts;
+        this.imgUrl = imgUrl;
+        this.quantity = quantity;
+    }
+
     public SetDTO(String setNum, String name, int year, int themeId, int numParts, String imgUrl) {
         this.setNum = setNum;
         this.name = name;

@@ -26,7 +26,20 @@ public class Result {
     @JsonProperty("num_sets")
     private int numSets;
 
-    public int getQuantity() {
-        return quantity;
+    public Result(long id, long invPartId, PartDTO part, ColorDTO color, String setNum, int quantity, boolean isSpare, String elementId, int numSets) {
+        this.id = id;
+        this.invPartId = invPartId;
+        this.part = part;
+        this.color = color;
+        this.setNum = setNum;
+        this.part.setQuantity(quantity);
+        this.part.setColorId(color.getId());
+        this.part.setIsSpare(String.valueOf(isSpare));
+        this.part.setSetNum(setNum);
+        this.quantity = quantity;
+        this.isSpare = isSpare;
+        this.elementId = elementId;
+        this.numSets = numSets;
     }
+
 }

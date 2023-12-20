@@ -20,6 +20,11 @@ public class ApiResponse<T> {
     List<Result> results = null;
     List<T> response = null;
     int partsCount;
+    Boolean isEmbedded = false;
+
+    public List<Result> getResults() {
+        return results;
+    }
 
     public ApiResponse(int count, List<Result> results) {
         this.count = count;
@@ -31,9 +36,15 @@ public class ApiResponse<T> {
         this.response = response;
     }
 
-    public ApiResponse(int count, List<T> response, int partsCount) {
+    public ApiResponse(List<T> response, int count, int partsCount) {
         this.count = count;
         this.response = response;
         this.partsCount = partsCount;
+    }
+    public ApiResponse(List<T> response, int count, int partsCount, Boolean isEmbedded) {
+        this.count = count;
+        this.response = response;
+        this.partsCount = partsCount;
+        this.isEmbedded = isEmbedded;
     }
 }

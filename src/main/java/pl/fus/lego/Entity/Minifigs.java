@@ -19,5 +19,4 @@ public class Minifigs {
     @Basic
     @Column(name = "img_url", nullable = false, length = 255)
     private String imgUrl;
-
 }

@@ -21,7 +21,7 @@ public class InventoryParts {
     private String partNum;
     @Basic
     @Column(name = "color_id", nullable = false, length = 20)
-    private String colorId;
+    private Integer colorId;
     @Basic
     @Column(name = "quantity", nullable = false, length = 20)
     private Integer quantity;

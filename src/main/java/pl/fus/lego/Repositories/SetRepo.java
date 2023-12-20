@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
-import pl.fus.lego.Entity.InventoryParts;
 import pl.fus.lego.Entity.Sets;
 import pl.fus.lego.UTILS.Criteria;
 
@@ -24,45 +23,11 @@ public interface SetRepo extends JpaRepository<Sets, String>, PagingAndSortingRe
             "AND (:#{#cr.search} IS NULL OR t.name LIKE  :#{#cr.search}   " +
             "     OR s.setNum LIKE  :#{#cr.search}   " +
             "     OR s.name LIKE  :#{#cr.search})")
-//    @Query("SELECT s FROM Sets s  " +
-//            "JOIN s.theme t  " +
-//            "JOIN s.parentTheme pt  " +
-//            "WHERE (:#{#cr.search} IS NULL OR t.name LIKE  :#{#cr.search} OR pt.name LIKE  :#{#cr.search}\n" +
-//            "OR s.name LIKE  :#{#cr.search} OR s.setNum LIKE  :#{#cr.search})  ")
     Page<Sets> findSetsByCriteria(@Param("cr") Criteria cr, Pageable pr);
 
-    //      Query, w których theme = null;
-    @Query("SELECT s FROM Sets s " +
-            "WHERE ((s.year BETWEEN :#{#cr.startYear} AND :#{#cr.endYear}) AND " +
-            "(s.numParts BETWEEN :#{#cr.minParts} AND :#{#cr.maxParts}))")
-    Page<Sets> findSetsNoTheme(@Param("cr") Criteria cr, Pageable pr);
+    @Query("SELECT  COUNT(s.setNum) FROM Sets s " +
+            "JOIN Inventories iv ON iv.setNum = s.setNum")
+    List<Object> findSetsInventory();
 
-//    @Query("SELECT ip FROM InventoryParts ip " +
-//            "JOIN Inventories i ON ip.inventoryId = i.id " +
-//            "JOIN Sets s ON s.setNum = i.setNum " +
-//            "WHERE s.setNum IN :list ")
-//    List<InventoryParts> findPartsToSetList(@Param("list") List<String> list);
-
-
-//    @Query("SELECT s, ip FROM InventoryParts ip " +
-//            "JOIN Inventories i ON ip.inventoryId = i.id " +
-//            "JOIN Sets s ON s.setNum = i.setNum " +
-//            "JOIN Parts pts ON pts.partNum = ip.partNum " +
-//            "JOIN UserSets us ON us.setNum = i.setNum " +
-//            "WHERE us.userId = :#{#cr.userId}")
-//    List<List<Object>> findMyPartsToSet(@Param("cr") Criteria cr);
-//
-//    @Query("SELECT s.setNum, ip FROM InventoryParts ip " +
-//            "JOIN Inventories i ON ip.inventoryId = i.id " +
-//            "JOIN Sets s ON s.setNum = i.setNum " +
-//            "JOIN Parts pts ON pts.partNum = ip.partNum")
-//    List<List<Object>> getAllSetsWithParts(Pageable pageable);
-//
-//    @Query("SELECT s.setNum, ip FROM InventoryParts ip " +
-//            "JOIN Inventories i ON ip.inventoryId = i.id " +
-//            "JOIN Sets s ON s.setNum = i.setNum " +
-//            "JOIN Parts pts ON pts.partNum = ip.partNum " +
-//            "WHERE s.setNum IN :#{#list}")
-//    List<List<Object>> findPartsToSetList(@Param("list") List<String> list);
 
 }

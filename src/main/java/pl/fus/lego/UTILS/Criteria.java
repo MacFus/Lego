@@ -18,7 +18,9 @@ public class Criteria {
     private String sortField;
     private String direction;
     private Integer userId;
+    private Integer ownPerc;
     private String search;
+
 
     public Criteria(Integer startYear, Integer endYear, Integer minParts, Integer maxParts, String theme, String sortField, String direction) {
         this.startYear = startYear;
@@ -37,6 +39,25 @@ public class Criteria {
         this.theme = theme;
         this.sortField = sortField;
         this.direction = direction;
-        this.search = '%'+search+'%';
+        if(search == null)
+            this.search = search;
+        else
+            this.search = '%'+search+'%';
+    }
+
+    public Criteria(Integer startYear, Integer endYear, Integer minParts, Integer maxParts, String theme, String sortField, String direction, String search, Integer userId, Integer ownPerc) {
+        this.startYear = startYear;
+        this.endYear = endYear;
+        this.minParts = minParts;
+        this.maxParts = maxParts;
+        this.theme = theme;
+        this.sortField = sortField;
+        this.direction = direction;
+        this.ownPerc = ownPerc;
+        this.userId = userId;
+        if(search == null)
+            this.search = search;
+        else
+            this.search = '%'+search+'%';
     }
 }

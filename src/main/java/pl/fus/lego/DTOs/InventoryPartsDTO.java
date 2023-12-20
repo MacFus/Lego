@@ -14,13 +14,13 @@ public class InventoryPartsDTO {
     private String setTheme;
     private String setParentTheme;
     private String partNum;
-    private String colorId;
+    private Integer colorId;
     private Integer quantityStr;
     private Integer setQuantity;
     private String imgUrl;
     private String isSpare;
 
-    public InventoryPartsDTO(String setName, String setNum,String setImgUrl, String setTheme, String setParentTheme, String partNum, String colorId, Integer quantityStr, String imgUrl, Integer setQuantity) {
+    public InventoryPartsDTO(String setName, String setNum,String setImgUrl, String setTheme, String setParentTheme, String partNum, Integer colorId, Integer quantityStr, String imgUrl, Integer setQuantity) {
         this.setName = setName;
         this.setNum = setNum;
         this.setImgUrl = setImgUrl;
@@ -33,7 +33,7 @@ public class InventoryPartsDTO {
         this.setQuantity = setQuantity;
     }
 
-    public InventoryPartsDTO(String setName, String setNum,String setImgUrl, String partNum, String colorId, Integer quantityStr, String imgUrl,  String isSpare) {
+    public InventoryPartsDTO(String setName, String setNum,String setImgUrl, String partNum, Integer colorId, Integer quantityStr, String imgUrl,  String isSpare) {
         this.setName = setName;
         this.setNum = setNum;
         this.setImgUrl = setImgUrl;
@@ -43,7 +43,7 @@ public class InventoryPartsDTO {
         this.imgUrl = imgUrl;
         this.isSpare = isSpare;
     }
-    public InventoryPartsDTO(String setName, String setNum,String setImgUrl, String partNum, String colorId, Integer quantityStr, String imgUrl, Integer setQuantity, String isSpare) {
+    public InventoryPartsDTO(String setName, String setNum,String setImgUrl, String partNum, Integer colorId, Integer quantityStr, String imgUrl, Integer setQuantity, String isSpare) {
         this.setName = setName;
         this.setNum = setNum;
         this.setImgUrl = setImgUrl;
@@ -55,7 +55,7 @@ public class InventoryPartsDTO {
         this.isSpare = isSpare;
     }
 
-    public InventoryPartsDTO(String partNum, String colorId) {
+    public InventoryPartsDTO(String partNum, Integer colorId) {
         this.partNum = partNum;
         this.colorId = colorId;
     }

@@ -20,13 +20,13 @@ public class PartDTO {
     @JsonProperty("part_num")
     private String partNum;
 
-    private String colorId;
+    private Integer colorId;
 
     private String isSpare;
     @JsonProperty("name")
     private String partName;
 
-    public PartDTO(String setName, String setNum, String imgUrl, String partNum, Integer quantity, String colorId, String isSpare) {
+    public PartDTO(String setName, String setNum, String imgUrl, String partNum, Integer quantity, Integer colorId, String isSpare) {
         this.setName = setName;
         this.setNum = setNum;
         this.imgUrl = imgUrl;
@@ -35,5 +35,4 @@ public class PartDTO {
         this.colorId = colorId;
         this.isSpare = isSpare;
     }
-
 }
