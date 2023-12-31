@@ -21,4 +21,13 @@ public class UserSets {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    public UserSets( String setNum, int userId, int quantity) {
+        this.userId = userId;
+        this.setNum = setNum;
+        this.quantity = quantity;
+    }
+
+    public UserSets() {
+
+    }
 }

@@ -33,24 +33,24 @@ public class ApiService {
         this.objectMapper = objectMapper;
     }
 
-    public ApiResponse getParts(String setNum) {
-
-        List<PartDTO> parts = null;
-
-        List<SetDTO> set = entityRepository.findSet(setNum);
-        if (set.get(0).getNumParts() == 0) {
-            List<InventorySetsDTO> embeddedSets = entityRepository.findEmbeddedSets(setNum);
-            return new ApiResponse<>(embeddedSets, embeddedSets.size(), 0, true);
-        } else {
-            parts = entityRepository.findPartsToSetList(List.of(setNum));
-            if (parts.size() != 0) {
-                int sum = parts.stream()
-                        .mapToInt(PartDTO::getQuantity) // Konwertuje PartDTO na int (ilość)
-                        .sum();
-                return new ApiResponse<>(parts, parts.size(), sum);
-            }
-            return null;
-        }
+//    public ApiResponse getParts(String setNum) {
+//
+//        List<PartDTO> parts = null;
+//
+//        List<SetDTO> set = entityRepository.findSet(setNum);
+//        if (set.get(0).getNumParts() == 0) {
+//            List<InventorySetsDTO> embeddedSets = entityRepository.findEmbeddedSets(setNum);
+//            return new ApiResponse<>(embeddedSets, embeddedSets.size(), 0, true);
+//        } else {
+//            parts = entityRepository.findPartsToSetList(List.of(setNum));
+//            if (parts.size() != 0) {
+//                int sum = parts.stream()
+//                        .mapToInt(PartDTO::getQuantity) // Konwertuje PartDTO na int (ilość)
+//                        .sum();
+//                return new ApiResponse<>(parts, parts.size(), sum);
+//            }
+//            return null;
+//        }
 
 //    public ApiResponse getParts(String setNum) {
 //        try {
@@ -91,5 +91,5 @@ public class ApiService {
 //        return url.replace("{set_num}", setNumber);
 //    }
 //}
-    }
+//    }
 }

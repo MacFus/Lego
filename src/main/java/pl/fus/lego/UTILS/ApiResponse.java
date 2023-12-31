@@ -21,6 +21,7 @@ public class ApiResponse<T> {
     List<T> response = null;
     int partsCount;
     Boolean isEmbedded = false;
+    int pages;
 
     public List<Result> getResults() {
         return results;
@@ -40,6 +41,12 @@ public class ApiResponse<T> {
         this.count = count;
         this.response = response;
         this.partsCount = partsCount;
+    }
+    public ApiResponse(List<T> response, int count, int partsCount, int pages) {
+        this.count = count;
+        this.response = response;
+        this.partsCount = partsCount;
+        this.pages = pages;
     }
     public ApiResponse(List<T> response, int count, int partsCount, Boolean isEmbedded) {
         this.count = count;

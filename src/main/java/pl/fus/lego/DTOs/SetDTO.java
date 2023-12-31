@@ -4,7 +4,9 @@ import lombok.*;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class SetDTO {
     private String setNum;
     private String name;
@@ -16,6 +18,7 @@ public class SetDTO {
     private String imgUrl;
     private Integer quantity;
     private Double match;
+    private Integer partsQuantity;
 
     public SetDTO(String setNum) {
         this.setNum = setNum;

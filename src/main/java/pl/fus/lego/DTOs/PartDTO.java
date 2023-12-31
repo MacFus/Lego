@@ -21,6 +21,7 @@ public class PartDTO {
     private String partNum;
 
     private Integer colorId;
+    private String colorName;
 
     private String isSpare;
     @JsonProperty("name")
@@ -33,6 +34,16 @@ public class PartDTO {
         this.quantity = quantity;
         this.partNum = partNum;
         this.colorId = colorId;
+        this.isSpare = isSpare;
+    }
+    public PartDTO(String setName, String setNum, String imgUrl, String partNum, Integer quantity, Integer colorId, String colorName, String isSpare) {
+        this.setName = setName;
+        this.setNum = setNum;
+        this.imgUrl = imgUrl;
+        this.quantity = quantity;
+        this.partNum = partNum;
+        this.colorId = colorId;
+        this.colorName = colorName;
         this.isSpare = isSpare;
     }
 }
