@@ -1,5 +1,6 @@
 package pl.fus.lego.Services;
 
+import jakarta.servlet.http.Part;
 import lombok.Data;
 import org.springframework.data.domain.PageRequest;
 import pl.fus.lego.DTOs.*;
@@ -222,7 +223,7 @@ public class Service {
         for (String setNum : request.getSetNum()) {
             Optional<UserSets> userSet = userSetRepo.findUserSetsBySetNumAndUserId(setNum, request.getUserId());
             if (userSet.isEmpty()) {
-                removedUserSets.add("Użytkownik nie posiada takiego zestawu: " + setNum) ;
+                removedUserSets.add("Użytkownik nie posiada takiego zestawu: " + setNum);
             } else if (request.getAll()) {
                 UserSets set = userSet.get();
                 userSetRepo.delete(set);
@@ -233,7 +234,7 @@ public class Service {
                 set.setQuantity(quantity - 1);
                 if (set.getQuantity() == 0) {
                     userSetRepo.delete(set);
-                    removedUserSets.add("Zestaw " +setNum + " został usunięty");
+                    removedUserSets.add("Zestaw " + setNum + " został usunięty");
                 } else {
                     userSetRepo.save(set);
                     removedUserSets.add("Zestaw " + setNum + " został pomniejszony o jeden");
@@ -241,5 +242,73 @@ public class Service {
             }
         }
         return removedUserSets;
+    }
+
+    public ApiMinifigResponse getMinifigAndParts(String figNum) {
+        List<Object[]> parts = repository.findMinifigAndParts(figNum);
+        PartDTO.PartDTOBuilder builder = PartDTO.builder();
+        List<String> ivIdList = new ArrayList<>();
+        ArrayList<PartDTO> partDTOS = new ArrayList<>();
+        for (Object[] part : parts) {
+            if (!ivIdList.contains((String) part[0])) {
+                ivIdList.add((String) part[0]);
+            }
+            if (!ivIdList.contains((String) part[0])) {
+                ivIdList.add((String) part[0]);
+            }
+            partDTOS.add(builder
+                    .partNum((String) part[1])
+                    .colorId((Integer) part[2])
+                    .colorName((String) part[3])
+                    .quantity((Integer) part[4])
+                    .imgUrl((String) part[5])
+                    .build());
+        }
+        //SELECT im.inventory_id ,ip.part_num ,ip.color_id, c.name, ip.quantity, ip.img_url FROM
+        Map<String, PartDTO> map = new LinkedHashMap<>(); // LinkedHashMap preserves the insertion order
+        for (PartDTO obj : partDTOS) {
+            map.putIfAbsent(obj.getPartNum(), obj);
+        }
+        List<PartDTO> minifigParts = new ArrayList<>(map.values());
+        List<SetDTO> setsMinifigIn = repository.findSetsMinifigsIn(ivIdList);
+        MinifigDTO minifig = repository.findMinifigDetails(figNum);
+        System.out.println();
+        return new ApiMinifigResponse(minifig, setsMinifigIn, minifigParts);
+//        List<String> setNumList = minifigs.stream().map(SetDTO::getSetNum).toList();
+//        List<PartDTO> parts = repository.findPartsToSetList(setNumList);
+//        List<String> partNumList = new ArrayList<>();
+//        Map<String, List<PartDTO>> setPartMap = new HashMap<>();
+//        int partsQuantity;
+//        for (SetDTO set : sets) {
+//            if (set.getQuantity() == null) set.setQuantity(0);
+//            if (set.getNumParts() == 0)
+//                continue;
+//            partsQuantity = 0;
+//            if (set.getQuantity() > 1) {
+//                for (PartDTO part : parts) {
+//                    if (set.getSetNum().equals(part.getSetNum())) {
+//                        Integer quantity = part.getQuantity();
+//                        part.setQuantity(set.getQuantity() * quantity);
+//                        setPartMap.computeIfAbsent(set.getSetNum(), k -> new ArrayList<>()).add(part);
+//                        partsQuantity += part.getQuantity();
+//                    }
+//                }
+//                set.setPartsQuantity(partsQuantity);
+//            } else {
+//                for (PartDTO part : parts) {
+//                    if (set.getSetNum().equals(part.getSetNum())) {
+//                        setPartMap.computeIfAbsent(set.getSetNum(), k -> new ArrayList<>()).add(part);
+//                        partsQuantity += part.getQuantity();
+//                    }
+//                }
+//                set.setPartsQuantity(partsQuantity);
+//            }
+//
+//        }
+//        for (PartDTO part : parts) {
+//            partNumList.add(part.getPartNum());
+//        }
+//        List<PartSubstituteDTO> substitutes = repository.findSubstitutes(partNumList);
+//        return new ApiSetResponse(sets, setPartMap, substitutes);
     }
 }

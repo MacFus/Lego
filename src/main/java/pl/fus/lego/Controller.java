@@ -10,10 +10,7 @@ import pl.fus.lego.DTOs.ThemeDTO;
 import pl.fus.lego.Entity.User;
 import pl.fus.lego.Services.ApiService;
 import pl.fus.lego.Services.Service;
-import pl.fus.lego.UTILS.CrudSetRequest;
-import pl.fus.lego.UTILS.ApiResponse;
-import pl.fus.lego.UTILS.ApiSetResponse;
-import pl.fus.lego.UTILS.Criteria;
+import pl.fus.lego.UTILS.*;
 
 import java.util.List;
 
@@ -98,6 +95,11 @@ public class Controller {
     @RequestMapping(value = "/sets/{setNum}", method = RequestMethod.GET)
     public ApiSetResponse getSetBySetNum(@PathVariable String setNum) {
         return service.getSetAndParts(setNum);
+    }
+
+    @RequestMapping(value = "/minifigs/{figNum}", method = RequestMethod.GET)
+    public ApiMinifigResponse getMinifigByFigNum(@PathVariable String figNum) {
+        return service.getMinifigAndParts(figNum);
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)

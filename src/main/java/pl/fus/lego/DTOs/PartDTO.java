@@ -3,11 +3,15 @@ package pl.fus.lego.DTOs;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Data
+@Builder
+@AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PartDTO {
     private String setName;

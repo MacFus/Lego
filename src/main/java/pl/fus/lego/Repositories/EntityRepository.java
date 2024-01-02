@@ -299,4 +299,57 @@ public class EntityRepository {
         return "Pomyślnie dodano zestaw";
 
     }
+
+    public List<Object[]> findMinifigAndParts(String figNum) {
+        String sql = "SELECT im.inventory_id ,ip.part_num ,ip.color_id, c.name, ip.quantity, ip.img_url FROM inventory_minifigs im " +
+                "JOIN minifigs m ON m.fig_num = im.fig_num " +
+                "LEFT JOIN inventories iv ON im.fig_num = iv.set_num " +
+                "JOIN inventory_parts ip ON  iv.id = ip.inventory_id " +
+                "JOIN colors c ON ip.color_id = c.id " +
+                "WHERE im.fig_num = :figNum";
+        Query queryParts = entityManager.createNativeQuery(sql);
+        queryParts.setParameter("figNum", figNum);
+        List<Object[]> results = queryParts.getResultList();
+        return results;
+    }
+
+    public List<SetDTO> findSetsMinifigsIn(List<String> ivIdList) {
+        String sqlSets = " SELECT DISTINCT (s.set_num), s.name, s.year, t.name, pt.name, s.num_parts, s.img_url FROM sets s " +
+                "LEFT JOIN themes t ON s.theme_id = t.id " +
+                "LEFT JOIN themes pt ON s.p_theme_id = pt.id " +
+                "LEFT JOIN inventories iv ON s.set_num = iv.set_num " +
+                "WHERE iv.id IN :invId";
+        Query querySets = entityManager.createNativeQuery(sqlSets);
+        querySets.setParameter("invId", ivIdList);
+        List<Object[]> resultsSets = querySets.getResultList();
+        ArrayList<SetDTO> setListFinIsIn = new ArrayList<>();
+        SetDTO.SetDTOBuilder builder = SetDTO.builder();
+        for (Object[] set : resultsSets) {
+            setListFinIsIn.add(builder.setNum((String) set[0])
+                    .name((String) set[1])
+                    .year((Integer) set[2])
+                    .themeName((String) set[3])
+                    .parentThemeName((String) set[4])
+                    .numParts((Integer) set[5])
+                    .imgUrl((String) set[6]).build());
+        }
+        return setListFinIsIn;
+    }
+
+    public MinifigDTO findMinifigDetails(String figNum) {
+        String sql = "SELECT distinct(m.fig_num), m.name, m.num_parts, m.img_url FROM inventory_minifigs im " +
+                "JOIN minifigs m ON m.fig_num = im.fig_num " +
+                "LEFT JOIN inventories iv ON im.fig_num = iv.set_num " +
+                "JOIN inventory_parts ip ON  iv.id = ip.inventory_id " +
+                "WHERE im.fig_num = :figNum";
+        Query query = entityManager.createNativeQuery(sql);
+        query.setParameter("figNum", figNum);
+        List<Object[]> results = query.getResultList();
+        ArrayList<MinifigDTO> minifig = new ArrayList<>();
+        MinifigDTO.MinifigDTOBuilder builder = MinifigDTO.builder();
+        for (Object[] fig : results) {
+            minifig.add(builder.figNum((String) fig[0]).name((String) fig[1]).numParts((Integer) fig[2]).imgUrl((String) fig[3]).build());
+        }
+        return minifig.get(0);
+    }
 }
