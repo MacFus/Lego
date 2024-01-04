@@ -27,7 +27,8 @@ public class SecurityConfiguration {
                 .cors().configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
                     config.setAllowCredentials(true);
-                    config.addAllowedOrigin("http://localhost:5173"); // URL aplikacji Svelte
+                    config.addAllowedOrigin("http://localhost:5173");
+                    config.addAllowedOrigin("https://lego-fus.netlify.app/");
                     config.addAllowedHeader("*");
                     config.addAllowedMethod("*");
                     return config;
