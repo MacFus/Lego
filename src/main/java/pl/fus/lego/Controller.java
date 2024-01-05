@@ -8,7 +8,6 @@ import pl.fus.lego.DTOs.MinifigDTO;
 import pl.fus.lego.DTOs.SetDTO;
 import pl.fus.lego.DTOs.ThemeDTO;
 import pl.fus.lego.Entity.User;
-import pl.fus.lego.Services.ApiService;
 import pl.fus.lego.Services.Service;
 import pl.fus.lego.UTILS.*;
 
@@ -16,29 +15,17 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-
 @RequestMapping("/api/v1")
 public class Controller {
-
     private final Service service;
-    private final ApiService apiService;
 
-    /**
-     * The Desciption of the method to explain what the method does
-     * @return String "Hello World"
-     */
     @CrossOrigin(origins = "http://localhost:5173")
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String sayHello() {
         return "Hello World";
     }
 
-    /**
-     * On login method retrieves user credentials and list of user sets
-     * with all of its parts
-     * @param userId - ID of user in db
-     * @return User credentials & user sets with params
-     */
+
     @CrossOrigin(origins = "http://localhost:5173")
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
     public ResponseEntity<User> getUserCredentials(@PathVariable Integer userId) {
@@ -51,11 +38,6 @@ public class Controller {
         return ResponseEntity.status(HttpStatus.OK).body(service.getMySetsWithParts(userId));
     }
 
-    /**
-     * On login method retrieves user credentials and list of user sets
-     * with all of its parts
-     * @return User credentials
-     */
     @CrossOrigin(origins = "http://localhost:5173")
     @RequestMapping(value = "/theme", method = RequestMethod.GET)
     public ResponseEntity<List<ThemeDTO>> getThemes() {

@@ -1,16 +1,11 @@
 package pl.fus.lego.Services;
 
-import jakarta.servlet.http.Part;
 import lombok.Data;
 import org.springframework.data.domain.PageRequest;
 import pl.fus.lego.DTOs.*;
 import pl.fus.lego.Entity.User;
 import pl.fus.lego.Entity.UserSets;
-import pl.fus.lego.Mappers.InventoryPartsMapper;
-import pl.fus.lego.Mappers.SetMapper;
 import pl.fus.lego.Repositories.EntityRepository;
-import pl.fus.lego.Repositories.MinifigRepo;
-import pl.fus.lego.Repositories.SetRepo;
 import pl.fus.lego.Repositories.UserSetRepo;
 import pl.fus.lego.UTILS.*;
 
@@ -19,22 +14,10 @@ import java.util.*;
 @Data
 @org.springframework.stereotype.Service
 public class Service {
-    private final SetMapper setMapper;
-    private final SetRepo setRepo;
     private final UserSetRepo userSetRepo;
-    private final InventoryPartsMapper inventoryPartsMapper;
     private final EntityRepository repository;
-    private final MinifigRepo minifigRepo;
-    private final ApiService apiService;
     private Map<String, List<InventoryPartsDTO>> setPartsMap;
 
-    /**
-     * On login method retrieves user credentials and list of user sets
-     * with all of its parts
-     *
-     * @param userId - Id
-     * @return User credentials & user sets with params
-     */
     public User getUserCredentials(Integer userId) {
         return repository.findUser(userId);
     }
