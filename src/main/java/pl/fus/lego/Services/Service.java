@@ -108,10 +108,6 @@ public class Service {
                     tempSetMap.put(partNum, quantity);
                 totalQuantity += dto.getQuantity();
             }
-            System.out.println();
-
-//             porównywanie
-            System.out.println("SET: " + set_num);
             for (String key : tempSetMap.keySet()) {
                 if (myTempPartMap.containsKey(key)) {
                     Integer myValue = myTempPartMap.get(key);
@@ -129,7 +125,6 @@ public class Service {
                     }
                 }
             }
-            System.out.println();
             percentage = totalOwned / totalQuantity * 100;
             if (percentage >= cr.getOwnPerc()) {
                 allSets.get(counter).setMatch(percentage);
@@ -255,43 +250,6 @@ public class Service {
         List<PartDTO> minifigParts = new ArrayList<>(map.values());
         List<SetDTO> setsMinifigIn = repository.findSetsMinifigsIn(ivIdList);
         MinifigDTO minifig = repository.findMinifigDetails(figNum);
-        System.out.println();
         return new ApiMinifigResponse(minifig, setsMinifigIn, minifigParts);
-//        List<String> setNumList = minifigs.stream().map(SetDTO::getSetNum).toList();
-//        List<PartDTO> parts = repository.findPartsToSetList(setNumList);
-//        List<String> partNumList = new ArrayList<>();
-//        Map<String, List<PartDTO>> setPartMap = new HashMap<>();
-//        int partsQuantity;
-//        for (SetDTO set : sets) {
-//            if (set.getQuantity() == null) set.setQuantity(0);
-//            if (set.getNumParts() == 0)
-//                continue;
-//            partsQuantity = 0;
-//            if (set.getQuantity() > 1) {
-//                for (PartDTO part : parts) {
-//                    if (set.getSetNum().equals(part.getSetNum())) {
-//                        Integer quantity = part.getQuantity();
-//                        part.setQuantity(set.getQuantity() * quantity);
-//                        setPartMap.computeIfAbsent(set.getSetNum(), k -> new ArrayList<>()).add(part);
-//                        partsQuantity += part.getQuantity();
-//                    }
-//                }
-//                set.setPartsQuantity(partsQuantity);
-//            } else {
-//                for (PartDTO part : parts) {
-//                    if (set.getSetNum().equals(part.getSetNum())) {
-//                        setPartMap.computeIfAbsent(set.getSetNum(), k -> new ArrayList<>()).add(part);
-//                        partsQuantity += part.getQuantity();
-//                    }
-//                }
-//                set.setPartsQuantity(partsQuantity);
-//            }
-//
-//        }
-//        for (PartDTO part : parts) {
-//            partNumList.add(part.getPartNum());
-//        }
-//        List<PartSubstituteDTO> substitutes = repository.findSubstitutes(partNumList);
-//        return new ApiSetResponse(sets, setPartMap, substitutes);
     }
 }
